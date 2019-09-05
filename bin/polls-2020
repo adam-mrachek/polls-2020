@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+require './lib/polls_2020'
+Polls2020::CLI.new.call
