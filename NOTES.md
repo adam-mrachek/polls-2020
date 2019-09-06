@@ -19,3 +19,9 @@ Initial interface shows top 3 candidates.
 
 User can view all candidates in a poll by entering corresponding number.
  - ie. "Enter number to view all candidates in a poll."
+
+ What is a poll?
+
+ A poll has a list of candidates.
+ A poll has a number related to each candidate.
+ A poll has a name.
