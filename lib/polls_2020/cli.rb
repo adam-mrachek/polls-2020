@@ -9,11 +9,7 @@ class Polls2020::CLI
 
   def list_polls
     puts "Today's Poll Numbers"
-    puts <<-DOC
-      1. Quinnipiac (9/3/2018): Biden - 32%, Warren - 13%, Sanders - 16%
-      2. Economist/YouGov (9/4/2018): Biden - 26%, Warren - 22%, Sanders - 14%
-      3. Harvard-Harris (9/3/2018): Biden - 32%, Warren - 24%, Sanders - 16%
-    DOC
+    @polls = Polls2020::Poll.today
   end
 
   def menu
