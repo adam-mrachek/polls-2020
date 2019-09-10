@@ -10,6 +10,9 @@ class Polls2020::CLI
   def list_polls
     puts "Today's Poll Numbers"
     @polls = Polls2020::Poll.today
+    @polls.each_with_index do |poll, i|
+      puts "#{i + 1}. #{poll.name} - #{poll.results}"
+    end
   end
 
   def menu
@@ -17,14 +20,9 @@ class Polls2020::CLI
     while input != 'exit'
       puts "Enter the number of a poll to see all candidates, type list to see options again, or type exit:"
       input = gets.chomp.downcase
-      case input
-      when "1"
-        puts "Poll numbers for all candidates in poll 1"
-      when "2"
-        puts "Poll numbers for all candidates in poll 2"
-      when "3"
-        puts "Poll numbers for all candidates in poll 3"
-      when 'list'
+      if input.to_i > 0 && input.to_i < @polls.size
+        puts @polls[input.to_i - 1].name
+      elsif input == 'list'
         list_polls
       else
         puts "Not a valid input. Type list to see options or type exit."
