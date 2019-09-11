@@ -11,7 +11,7 @@ class Polls2020::CLI
     puts "Today's Poll Numbers"
     @polls = Polls2020::Poll.today
     @polls.each_with_index do |poll, i|
-      puts "#{i + 1}. #{poll.name} - #{poll.results}"
+      puts "#{i + 1}. #{poll.name} (#{poll.date}): #{poll.results[0][0]} - #{poll.results[0][1]}, #{poll.results[1][0]} - #{poll.results[1][1]}, #{poll.results[2][0]} - #{poll.results[2][1]}"
     end
   end
 
