@@ -1,42 +1,29 @@
 class Polls2020::Poll
-  attr_accessor :name, :results
+  attr_accessor :name, :results, :date
+
+  def initialize
+    @results = []
+  end
 
   def self.today
     self.scrape_polls
-    # poll_1 = self.new
-    # poll_1.name = "Quinnipiac"
-    # poll_1.results = ['Biden 32', 'Warren 16', 'Sanders 14']
-    #
-    # poll_2 = self.new
-    # poll_2.name = "IDP/PPP"
-    # poll_2.results = ['Biden 24', 'Warren 24', 'Sanders 14']
-    #
-    # poll_3 = self.new
-    # poll_3.name = "YouGov"
-    # poll_3.results = ['Biden 28', 'Warren 20', 'Sanders 18']
-    #
-    # [poll_1, poll_2, poll_3]
   end
 
   def self.scrape_polls
     polls = []
-
-    polls << self.scrape_quinnipiac
-
-    polls
-  end
-
-  def self.scrape_quinnipiac
     doc = Nokogiri::HTML(open("https://projects.fivethirtyeight.com/polls/president-primary-d/national/"))
-    poll = test = doc.search("tr.visible-row")
+    all_polls = doc.search("tr[data-type='president-primary-d']")
+    good_polls = all_polls.select do |poll|
+      poll_grade = poll.css(".gradeText").text
+      ["A+", "A", "A-", "B+", "B", "B-"].include?(poll_grade)
+    end
+
+    # date = poll.css(".date-wrapper").text
+    # name = poll.css(".pollster-container a:nth-child(2)").text
+    # result_name = poll.css(".mobile-answer p").text
+    # result_percent = poll.css(".heat-map").text
+    # all_results = poll.css(".mobile-answer")
     binding.pry
   end
 
-  def self.scrape_idp
-
-  end
-
-  def self.scrape_yougov
-
-  end
 end
