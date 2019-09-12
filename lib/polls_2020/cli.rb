@@ -2,7 +2,9 @@
 
 class Polls2020::CLI
   attr_accessor :polls
+
   def call
+    @polls = Polls2020::PollScraper.new.today
     list_polls
     menu
     goodbye
@@ -12,7 +14,6 @@ class Polls2020::CLI
     system "clear"
     puts "Today's Poll Numbers"
     puts "--------------------"
-    @polls = Polls2020::PollScraper.new.today
     display_partial_poll
   end
 
@@ -27,6 +28,8 @@ class Polls2020::CLI
         display_full_poll(input.to_i - 1)
       elsif input == 'list'
         list_polls
+      elsif input == 'exit'
+        break
       else
         puts "Not a valid input. Type list to see options or type exit."
       end

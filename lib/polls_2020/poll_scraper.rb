@@ -12,6 +12,7 @@ class Polls2020::PollScraper
 
   def scrape_polls
     all_polls = @doc.search("tr[data-type='president-primary-d']")
+
     good_polls = all_polls.select do |poll|
       poll_grade = poll.css(".gradeText").text
       ["A+", "A", "A-", "B+", "B", "B-"].include?(poll_grade)
@@ -24,12 +25,12 @@ class Polls2020::PollScraper
 
       all_results = poll.css(".mobile-answer")
 
-      all_results.each do |result|
-        candidate = []
-        candidate << result.css("p").text
-        candidate << result.css(".heat-map").text
-        new_poll.results << candidate
+      new_poll.results = all_results.map do |result|
+        candidate_name = result.css("p").text
+        candidate_poll = result.css(".heat-map").text
+        [candidate_name, candidate_poll]
       end
+
       @polls << new_poll
     end
 
