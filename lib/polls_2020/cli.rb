@@ -9,15 +9,19 @@ class Polls2020::CLI
   end
 
   def list_polls
+    system "clear"
     puts "Today's Poll Numbers"
-    @polls = Polls2020::PollScraper.today
+    puts "--------------------"
+    @polls = Polls2020::PollScraper.new.today
     display_partial_poll
   end
 
   def menu
     input = nil
     while input != 'exit'
+      puts ""
       puts "Enter the number of a poll to see all candidates, type list to see options again, or type exit:"
+      puts ""
       input = gets.chomp.downcase
       if input.to_i > 0 && input.to_i <= @polls.size
         display_full_poll(input.to_i - 1)
@@ -36,9 +40,11 @@ class Polls2020::CLI
   end
 
   def display_full_poll(selection)
+    puts ""
     puts "#{@polls[selection].name} (#{@polls[selection].date})"
+    puts "---------------------------"
     @polls[selection].results.each do |result|
-      puts "#{result[0]} - #{result[1]}"
+      puts "  #{result[0]} - #{result[1]}"
     end
   end
 

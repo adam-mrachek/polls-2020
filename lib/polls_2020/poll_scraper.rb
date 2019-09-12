@@ -1,13 +1,17 @@
 class Polls2020::PollScraper
+  attr_accessor :polls, :doc
 
-  def self.today
-    self.scrape_polls
+  def initialize
+    @polls = []
+    @doc = Nokogiri::HTML(open("https://projects.fivethirtyeight.com/polls/president-primary-d/national/"))
   end
 
-  def self.scrape_polls
-    polls = []
-    doc = Nokogiri::HTML(open("https://projects.fivethirtyeight.com/polls/president-primary-d/national/"))
-    all_polls = doc.search("tr[data-type='president-primary-d']")
+  def today
+    scrape_polls
+  end
+
+  def scrape_polls
+    all_polls = @doc.search("tr[data-type='president-primary-d']")
     good_polls = all_polls.select do |poll|
       poll_grade = poll.css(".gradeText").text
       ["A+", "A", "A-", "B+", "B", "B-"].include?(poll_grade)
@@ -26,10 +30,10 @@ class Polls2020::PollScraper
         candidate << result.css(".heat-map").text
         new_poll.results << candidate
       end
-      polls << new_poll
+      @polls << new_poll
     end
 
-    polls
+    @polls
   end
 
 end
