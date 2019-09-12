@@ -10,10 +10,8 @@ class Polls2020::CLI
 
   def list_polls
     puts "Today's Poll Numbers"
-    @polls = Polls2020::Poll.today
-    @polls.each_with_index do |poll, i|
-      puts "#{i + 1}. #{poll.name} (#{poll.date}): #{poll.results[0][0]} - #{poll.results[0][1]}, #{poll.results[1][0]} - #{poll.results[1][1]}, #{poll.results[2][0]} - #{poll.results[2][1]}"
-    end
+    @polls = Polls2020::PollScraper.today
+    display_partial_poll
   end
 
   def menu
@@ -28,6 +26,12 @@ class Polls2020::CLI
       else
         puts "Not a valid input. Type list to see options or type exit."
       end
+    end
+  end
+
+  def display_partial_poll
+    @polls.each_with_index do |poll, i|
+      puts "#{i + 1}. #{poll.name} (#{poll.date}): #{poll.results[0][0]} - #{poll.results[0][1]}, #{poll.results[1][0]} - #{poll.results[1][1]}"
     end
   end
 
